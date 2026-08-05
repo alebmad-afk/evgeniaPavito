@@ -53,6 +53,27 @@ def main():
             ws.delete_rows(ri)
         print(f"{name}: оставлено {kept}, удалено {len(to_delete)}")
 
+    # обязательные параметры услуг, пустые в экспорте Авито (ошибка 1073)
+    DEFAULTS = {"Consultations": "Есть", "WorkWithContract": "Да", "Prepayment": "Нет"}
+    for name in wb.sheetnames:
+        if name.startswith(SERVICE_SHEETS_SKIP):
+            continue
+        ws = wb[name]
+        header = [c.value for c in ws[2]]
+        filled = 0
+        for col_name, value in DEFAULTS.items():
+            if col_name not in header:
+                continue
+            ci = header.index(col_name) + 1
+            for ri in range(5, ws.max_row + 1):
+                if ws.cell(row=ri, column=1).value in (None, ""):
+                    continue
+                if ws.cell(row=ri, column=ci).value in (None, ""):
+                    ws.cell(row=ri, column=ci).value = value
+                    filled += 1
+        if filled:
+            print(f"{name}: заполнено пустых обязательных полей: {filled}")
+
     wb.save(dst)
 
     # валидация результата
