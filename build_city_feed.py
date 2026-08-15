@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Сборка feed.xlsx: 30 объявлений × 10 городов МСК на ID уже снятых объявлений.
+"""Сборка feed.xlsx: 30 объявлений × 18 городов на ID уже снятых объявлений.
 
 Источники:
   * официальный Excel-экспорт автозагрузки Авито (все объявления аккаунта
@@ -12,7 +12,7 @@
 Логика:
   * строки со статусом «Активно» переносятся в фид БЕЗ изменений — иначе
     отсутствие строки снимет объявление с публикации;
-  * под 300 комбинаций (объявление × город) берутся ID строк со статусом
+  * под все комбинации (объявление × город) берутся ID строк со статусом
     «Снято с публикации»: размещение по ним уже оплачено, поэтому возврат
     в актив не тратит месячный лимит (в отличие от «Истёк срок публикации»);
   * приоритет при раздаче ID — строки, у которых Address уже совпадает
@@ -31,7 +31,7 @@ import sys
 
 import openpyxl
 
-from cities import MSK_TOP10
+from cities import CITIES
 
 SERVICE_SHEET = "Деловые услуги-Бухгалтерия, фин"
 SKIP_PREFIX = ("Инструкция", "Спр-")
@@ -102,7 +102,8 @@ def assign_ids(archived, ads, cities):
     used = set()
     plan = []
     # проход 1: для каждой пары берём строку, уже стоящую в нужном городе
-    for _, address, _ in cities:
+    for city in cities:
+        address = city[1]
         bucket = by_address.get(address, [])
         for ad in ads:
             match = next((i for i in bucket if id(i) not in used), None)
@@ -140,8 +141,8 @@ def main():
     print("в экспорте: активных %d, снятых с публикации %d, всего услуг %d"
           % (len(active), len(archived), len(rows)))
 
-    need = len(ads) * len(MSK_TOP10)
-    plan = assign_ids(archived, ads, MSK_TOP10)
+    need = len(ads) * len(CITIES)
+    plan = assign_ids(archived, ads, CITIES)
     assert len(plan) == need
 
     col = {name: i + 1 for i, name in enumerate(header) if name}
@@ -156,7 +157,7 @@ def main():
         ws.cell(ri, col["ImageUrls"]).value = ad["images"]
         kept_rows.add(ri)
     print("подготовлено %d комбинаций (30 объявлений × %d городов), "
-          "гео не менялось у %d" % (need, len(MSK_TOP10), same_geo))
+          "гео не менялось у %d" % (need, len(CITIES), same_geo))
 
     # лишние строки листа услуг — удалить (они уже сняты, отсутствие в фиде ничего не меняет)
     for ri in sorted({ri for ri, _ in rows} - kept_rows, reverse=True):
@@ -220,7 +221,7 @@ def verify(dst, ads, active, need):
                       "Category", "ServiceType", "ServiceSubtype", "Consultations",
                       "WorkWithContract", "Prepayment", "Place"):
             assert r.get(field) not in (None, ""), "пустое поле %s у Id=%s" % (field, r["Id"])
-    assert len(per_city) == len(MSK_TOP10), "городов в фиде: %d" % len(per_city)
+    assert len(per_city) == len(CITIES), "городов в фиде: %d" % len(per_city)
     for address, found in sorted(per_city.items()):
         assert len(found) == len(ads), "%s: %d объявлений" % (address, len(found))
     print("проверка пройдена: %s — %d строк (%d новых + %d активных без изменений), "
