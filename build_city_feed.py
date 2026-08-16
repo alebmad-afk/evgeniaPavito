@@ -22,7 +22,7 @@
   * пустые обязательные поля услуг заполняются (иначе ошибка 1073).
 
 Использование:
-    python3 build_city_feed.py <экспорт_авито.xlsx> [feed.xlsx]
+    python3 build_city_feed.py <экспорт_авито.xlsx> [feed.xlsx] [прошлый_feed.xlsx]
 """
 import html
 import json
@@ -46,6 +46,8 @@ COMMON_PHOTOS = ["%s/common_%02d.jpg" % (DISK_DIR, i) for i in range(2, 11)]
 
 STATUS_ACTIVE = "Активно"
 STATUS_ARCHIVED = "Снято с публикации"
+# список AvitoId, по которым размещение ещё оплачено (выгрузка из ЛК)
+PAID_IDS_FILE = "paid_until_20260904.txt"
 
 
 def read_sheet(ws):
@@ -93,33 +95,61 @@ def load_ads(path):
     return ads
 
 
-def assign_ids(archived, ads, cities):
-    """(объявление × город) → строка экспорта. Сначала строки с уже нужным гео."""
+def load_previous(path):
+    """Раскладка прошлого фида: AvitoId → (заголовок, адрес)."""
+    if not path or not os.path.exists(path):
+        return {}
+    ws = openpyxl.load_workbook(path)[SERVICE_SHEET]
+    _, rows = read_sheet(ws)
+    return {str(r["AvitoId"]): (r["Title"], r["Address"]) for _, r in rows}
+
+
+def assign_ids(archived, ads, cities, previous):
+    """(объявление × город) → строка экспорта.
+
+    Порядок приоритетов: сохранить раскладку прошлого фида (часть объявлений уже
+    опубликована — смена города у активного объявления может пойти как новое
+    размещение), затем строки, уже стоящие в нужном городе, затем что осталось.
+    """
     pool = sorted(archived, key=lambda t: str(t[1]["Id"]))
-    by_address = {}
+    by_previous = {}
     for item in pool:
-        by_address.setdefault(str(item[1]["Address"]), []).append(item)
+        key = previous.get(str(item[1]["AvitoId"]))
+        if key:
+            by_previous.setdefault(key, []).append(item)
+
+    # фаза 1: пары из прошлого фида остаются на своих строках. Строки, у которых
+    # прошлая пара есть, в запасной проход не попадают вообще — иначе их мог бы
+    # забрать чужой город, а часть таких объявлений уже опубликована.
     used = set()
     plan = []
-    # проход 1: для каждой пары берём строку, уже стоящую в нужном городе
     for city in cities:
         address = city[1]
-        bucket = by_address.get(address, [])
         for ad in ads:
-            match = next((i for i in bucket if id(i) not in used), None)
-            if match is None:
-                plan.append((ad, address, None))
-            else:
+            same = by_previous.get((ad["title"], address), [])
+            match = next((i for i in same if id(i) not in used), None)
+            if match is not None:
                 used.add(id(match))
-                plan.append((ad, address, match))
-    # проход 2: остальным раздаём свободные ID подряд
-    free = (i for i in pool if id(i) not in used)
+            plan.append((ad, address, match))
+    if previous:
+        print("сохранено пар из прошлого фида: %d из %d"
+              % (sum(1 for _, _, m in plan if m is not None), len(plan)))
+
+    # фаза 2: пустые пары добираем строками БЕЗ прошлой раскладки,
+    # сначала теми, что уже стоят в нужном городе
+    spare = [i for i in pool if str(i[1]["AvitoId"]) not in previous]
+    by_address = {}
+    for item in spare:
+        by_address.setdefault(str(item[1]["Address"]), []).append(item)
     filled = []
     for ad, address, row in plan:
         if row is None:
-            row = next(free, None)
+            row = next((i for i in by_address.get(address, []) if id(i) not in used), None)
             if row is None:
-                sys.exit("ОШИБКА: снятых объявлений меньше, чем нужно комбинаций")
+                row = next((i for i in spare if id(i) not in used), None)
+            if row is None:
+                sys.exit("ОШИБКА: свободных оплаченных ID меньше, чем незакрытых пар")
+            used.add(id(row))
         filled.append((ad, address, row))
     return filled
 
@@ -129,6 +159,7 @@ def main():
         sys.exit(__doc__)
     src = sys.argv[1]
     dst = sys.argv[2] if len(sys.argv) > 2 else "feed.xlsx"
+    prev_path = sys.argv[3] if len(sys.argv) > 3 else dst
     here = os.path.dirname(os.path.abspath(__file__))
     ads = load_ads(os.path.join(here, "data", "ads_texts.json"))
 
@@ -141,8 +172,20 @@ def main():
     print("в экспорте: активных %d, снятых с публикации %d, всего услуг %d"
           % (len(active), len(archived), len(rows)))
 
+    # У части снятых оплаченный срок реально истёк (AvitoDateEnd в прошлом) — такие
+    # строки Авито возвращает как «Снято с публикации» и не поднимает. Берём только
+    # те AvitoId, по которым размещение оплачено (список выгружается из ЛК).
+    paid_path = os.path.join(here, "data", PAID_IDS_FILE)
+    if os.path.exists(paid_path):
+        paid = {line.strip() for line in open(paid_path, encoding="utf-8") if line.strip()}
+        before = len(archived)
+        archived = [(ri, r) for ri, r in archived if str(r["AvitoId"]) in paid]
+        print("отфильтровано по списку оплаченных (%s): %d из %d снятых годятся"
+              % (PAID_IDS_FILE, len(archived), before))
+
     need = len(ads) * len(CITIES)
-    plan = assign_ids(archived, ads, CITIES)
+    previous = load_previous(prev_path)
+    plan = assign_ids(archived, ads, CITIES, previous)
     assert len(plan) == need
 
     col = {name: i + 1 for i, name in enumerate(header) if name}
