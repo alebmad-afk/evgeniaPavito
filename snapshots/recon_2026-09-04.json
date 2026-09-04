@@ -1,0 +1,440 @@
+{
+ "account": {
+  "email": "info.porshneva@yandex.ru",
+  "id": 171666816,
+  "name": "ИП Поршнева Е.Д.",
+  "phone": "79139810159",
+  "phones": [
+   "79139810159"
+  ],
+  "profile_url": "https://www.avito.ru/user/bd86493a13d78ba98ac9203fd0f0e5f5/profile"
+ },
+ "active_items": [
+  {
+   "id": 7645149099,
+   "title": "Бухгалтер для подрядчиков и субподрядчиков",
+   "address": "Рязанская обл., Рязань",
+   "url": "https://www.avito.ru/ryazan/predlozheniya_uslug/buhgalter_dlya_podryadchikov_i_subpodryadchikov_7645149099",
+   "price": null
+  },
+  {
+   "id": 7613797242,
+   "title": "Бухучёт по строительным объектам",
+   "address": "Саратовская обл., Саратов",
+   "url": "https://www.avito.ru/saratov/predlozheniya_uslug/buhuchet_po_stroitelnym_obektam_7613797242",
+   "price": 1000
+  },
+  {
+   "id": 7613580805,
+   "title": "НДС для строительной компании",
+   "address": "Саратовская обл., Саратов",
+   "url": "https://www.avito.ru/saratov/predlozheniya_uslug/nds_dlya_stroitelnoy_kompanii_7613580805",
+   "price": null
+  },
+  {
+   "id": 7613302770,
+   "title": "Кс-2 и кс-3: бухгалтерский учёт",
+   "address": "Тульская обл., Тула",
+   "url": "https://www.avito.ru/tula/predlozheniya_uslug/ks-2_i_ks-3_buhgalterskiy_uchet_7613302770",
+   "price": null
+  }
+ ],
+ "counts": {
+  "active": 4,
+  "old": 961,
+  "blocked": 2,
+  "rejected": 0
+ },
+ "profile": {
+  "feeds_data": [
+   {
+    "feed_name": "",
+    "feed_url": "https://raw.githubusercontent.com/alebmad-afk/evgeniaPavito/41e64c37f87cbe3629c6e59b626a6a86381df7e6/feed.xlsx"
+   }
+  ],
+  "autoload_enabled": true,
+  "report_email": null,
+  "allow_pay_over_limit": false,
+  "schedule": [
+   {
+    "rate": -1,
+    "weekdays": [
+     3,
+     6,
+     1,
+     4,
+     0,
+     2,
+     5
+    ],
+    "time_slots": [
+     18,
+     2,
+     14,
+     8,
+     20,
+     7,
+     1,
+     16,
+     10,
+     22,
+     9,
+     3,
+     21,
+     15,
+     11,
+     5,
+     23,
+     4,
+     17,
+     19,
+     13,
+     12,
+     0,
+     6
+    ]
+   }
+  ],
+  "uploadMode": "manual"
+ },
+ "uploads": [
+  {
+   "upload_id": 582227716,
+   "status": "success_warning",
+   "source": "Web",
+   "started_at": "2026-08-16T11:46:12Z",
+   "stats": {
+    "title": "Обработано объявлений",
+    "slug": "sections_stats",
+    "count": 571,
+    "sections": [
+     {
+      "title": "Не опубликовано",
+      "slug": "not_publish",
+      "count": 36,
+      "sections": [
+       {
+        "title": "Снято с публикации",
+        "slug": "stopped_by_avito",
+        "count": 36
+       }
+      ]
+     },
+     {
+      "title": "Не удалось опубликовать",
+      "slug": "error",
+      "count": 445,
+      "sections": [
+       {
+        "title": "Заблокировано",
+        "slug": "error_blocked",
+        "count": 2
+       },
+       {
+        "title": "Ошибки платного размещения",
+        "slug": "error_fee",
+        "count": 443
+       }
+      ]
+     },
+     {
+      "title": "Успешно опубликовано",
+      "slug": "successful",
+      "count": 90,
+      "sections": []
+     }
+    ]
+   },
+   "events": [],
+   "feed_urls": [
+    {
+     "name": "",
+     "url": "https://api.avito.ru/autoload/v2/feed/content/6a81a304533eda226c41f005"
+    }
+   ]
+  },
+  {
+   "upload_id": 581963258,
+   "status": "success_warning",
+   "source": "Web",
+   "started_at": "2026-08-15T22:40:28Z",
+   "stats": {
+    "title": "Обработано объявлений",
+    "slug": "sections_stats",
+    "count": 605,
+    "sections": [
+     {
+      "title": "Не опубликовано",
+      "slug": "not_publish",
+      "count": 36,
+      "sections": [
+       {
+        "title": "Снято с публикации",
+        "slug": "stopped_by_avito",
+        "count": 36
+       }
+      ]
+     },
+     {
+      "title": "Не удалось опубликовать",
+      "slug": "error",
+      "count": 504,
+      "sections": [
+       {
+        "title": "Ошибки платного размещения",
+        "slug": "error_fee",
+        "count": 504
+       }
+      ]
+     },
+     {
+      "title": "Успешно опубликовано",
+      "slug": "successful",
+      "count": 31,
+      "sections": []
+     },
+     {
+      "title": "Удалено из файла",
+      "slug": "removed_from_file",
+      "count": 34,
+      "sections": [
+       {
+        "title": "Снято с публикации",
+        "slug": "removed_complete",
+        "count": 34
+       }
+      ]
+     }
+    ]
+   },
+   "events": [],
+   "feed_urls": [
+    {
+     "name": "",
+     "url": "https://api.avito.ru/autoload/v2/feed/content/6a80eadc697b955858e8ad91"
+    }
+   ]
+  },
+  {
+   "upload_id": 576518227,
+   "status": "success_warning",
+   "source": "OpenAPI",
+   "started_at": "2026-08-05T01:56:24Z",
+   "stats": {
+    "title": "Обработано объявлений",
+    "slug": "sections_stats",
+    "count": 65,
+    "sections": [
+     {
+      "title": "Не опубликовано",
+      "slug": "not_publish",
+      "count": 28,
+      "sections": [
+       {
+        "title": "Истёк срок размещения",
+        "slug": "stopped_by_expiration",
+        "count": 28
+       }
+      ]
+     },
+     {
+      "title": "Не удалось опубликовать",
+      "slug": "error",
+      "count": 2,
+      "sections": [
+       {
+        "title": "Ошибки платного размещения",
+        "slug": "error_fee",
+        "count": 2
+       }
+      ]
+     },
+     {
+      "title": "Успешно опубликовано",
+      "slug": "successful",
+      "count": 35,
+      "sections": []
+     }
+    ]
+   },
+   "events": [],
+   "feed_urls": [
+    {
+     "name": "",
+     "url": "https://api.avito.ru/autoload/v2/feed/content/6a729848ae76f39847219b9c/afa9775f-8b7d-4599-b25c-3884ffc9353c"
+    }
+   ]
+  },
+  {
+   "upload_id": 576509870,
+   "status": "success_warning",
+   "source": "Url",
+   "started_at": "2026-08-05T01:29:01Z",
+   "stats": {
+    "title": "Обработано объявлений",
+    "slug": "sections_stats",
+    "count": 65,
+    "sections": [
+     {
+      "title": "Не опубликовано",
+      "slug": "not_publish",
+      "count": 2,
+      "sections": [
+       {
+        "title": "Истёк срок размещения",
+        "slug": "stopped_by_expiration",
+        "count": 2
+       }
+      ]
+     },
+     {
+      "title": "Не удалось опубликовать",
+      "slug": "error",
+      "count": 28,
+      "sections": [
+       {
+        "title": "Несколько ошибок",
+        "slug": "error_several",
+        "count": 2
+       },
+       {
+        "title": "Ошибки описания",
+        "slug": "error_params",
+        "count": 26
+       }
+      ]
+     },
+     {
+      "title": "Опубликовано с проблемами",
+      "slug": "publish_with_problems",
+      "count": 30,
+      "sections": [
+       {
+        "title": "Критические ошибки описания",
+        "slug": "problem_params_critical",
+        "count": 30
+       }
+      ]
+     },
+     {
+      "title": "Успешно опубликовано",
+      "slug": "successful",
+      "count": 5,
+      "sections": []
+     }
+    ]
+   },
+   "events": [],
+   "feed_urls": [
+    {
+     "name": "",
+     "url": "https://api.avito.ru/autoload/v2/feed/content/6a7291dd4e4f21c7c2c7064a/f736bf5e-320d-4372-b3a3-ed86361b1257"
+    }
+   ]
+  },
+  {
+   "upload_id": 576499851,
+   "status": "success_warning",
+   "source": "OpenAPI",
+   "started_at": "2026-08-05T00:54:04Z",
+   "stats": {
+    "title": "Обработано объявлений",
+    "slug": "sections_stats",
+    "count": 918,
+    "sections": [
+     {
+      "title": "Не опубликовано",
+      "slug": "not_publish",
+      "count": 2,
+      "sections": [
+       {
+        "title": "Истёк срок размещения",
+        "slug": "stopped_by_expiration",
+        "count": 2
+       }
+      ]
+     },
+     {
+      "title": "Не удалось опубликовать",
+      "slug": "error",
+      "count": 28,
+      "sections": [
+       {
+        "title": "Несколько ошибок",
+        "slug": "error_several",
+        "count": 2
+       },
+       {
+        "title": "Ошибки описания",
+        "slug": "error_params",
+        "count": 26
+       }
+      ]
+     },
+     {
+      "title": "Опубликовано с проблемами",
+      "slug": "publish_with_problems",
+      "count": 30,
+      "sections": [
+       {
+        "title": "Критические ошибки описания",
+        "slug": "problem_params_critical",
+        "count": 30
+       }
+      ]
+     },
+     {
+      "title": "Успешно опубликовано",
+      "slug": "successful",
+      "count": 5,
+      "sections": []
+     },
+     {
+      "title": "Удалено из файла",
+      "slug": "removed_from_file",
+      "count": 853,
+      "sections": [
+       {
+        "title": "Снято с публикации",
+        "slug": "removed_complete",
+        "count": 853
+       }
+      ]
+     }
+    ]
+   },
+   "events": [],
+   "feed_urls": [
+    {
+     "name": "",
+     "url": "https://api.avito.ru/autoload/v2/feed/content/6a7289ac9f3c7f62ca7fa120/f736bf5e-320d-4372-b3a3-ed86361b1257"
+    }
+   ]
+  },
+  {
+   "upload_id": 576491596,
+   "status": "error",
+   "source": "Url",
+   "started_at": "2026-08-05T00:29:01Z",
+   "stats": {
+    "title": "Обработано объявлений",
+    "slug": "sections_stats",
+    "count": 0,
+    "sections": []
+   },
+   "events": [
+    {
+     "code": 108,
+     "type": "error",
+     "description": "Не удалось скачать файл, ошибка: Not Found (404), URL: https://monitoring.b2b-help.ru/fid-constructor/9783879105/1clGxD2OH087wcfEFcbOLUHSxAoGBHuGeDxQtJE5BA4A.xml"
+    }
+   ],
+   "feed_urls": [
+    {
+     "name": "",
+     "url": "https://api.avito.ru/autoload/v2/feed/content/6a7283cd9f3c7f62ca7f9378/462695af-2c6f-458a-bee8-eb55ff4c754a"
+    }
+   ]
+  }
+ ]
+}

@@ -1,5 +1,7 @@
 .env
+.avito_token.json
 reports/
 exports/
+*.log
 __pycache__/
 *.pyc
