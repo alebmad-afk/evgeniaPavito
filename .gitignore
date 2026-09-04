@@ -5,3 +5,4 @@ exports/
 *.log
 __pycache__/
 *.pyc
+.avito_access_token
